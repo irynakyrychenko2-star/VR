@@ -1,81 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>WebXR AR A-Frame Demo</title>
-    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    
-    </head>
-<body>
-    <a-scene 
-        webxr="requiredFeatures: [hit-test, local-floor];"
-        ar-mode-ui="enabled: true"
+  <head>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <title>A-Frame AR Сцена</title>
+  </head>
+  <body>
+    <a-scene
+      vr-mode-ui="enabled: false"
+      webxr="requiredFeatures: [ar-hit-test]; optionalFeatures: [light-estimation]"
     >
-        <a-entity camera position="0 1.6 0">
-            <a-cursor></a-cursor>
-        </a-entity>
-        
-        <a-entity id="ar-content">
-            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" scale="0.5 0.5 0.5"></a-box>
-            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" scale="0.5 0.5 0.5"></a-sphere>
-            <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" scale="0.5 0.5 0.5"></a-cylinder>
-            
-            </a-entity>
-        
-        <a-light type="directional" intensity="0.5" position="1 1 1"></a-light>
-        <a-light type="ambient" intensity="1"></a-light>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
 
-    </a-scene>
+      <a-entity camera position="0 1.6 0"></a-entity>
 
-    <script>
-        AFRAME.registerComponent('ar-placement', {
-            init: function () {
-                const el = this.el;
-                const scene = this.el.sceneEl;
-                const content = document.getElementById('ar-content');
-                
-                // Спочатку ховаємо контент
-                content.setAttribute('visible', 'false');
-
-                // Слухаємо кліки/торкання для розміщення
-                scene.addEventListener('ar-hit-test-start', () => {
-                    // Показуємо користувачу, що він шукає поверхню
-                });
-
-                scene.addEventListener('ar-hit-test-result', (event) => {
-                    if (event.detail.results.length > 0) {
-                        // Якщо знайдено поверхню, візуалізуємо її (наприклад, кільцем)
-                        // ...
-                    }
-                });
-                
-                scene.addEventListener('click', (event) => {
-                    // Перевіряємо, чи є активний AR-сеанс
-                    if (scene.is('ar-mode')) {
-                        const hitTestState = scene.components['webxr'].hitTestState;
-                        
-                        if (hitTestState && hitTestState.results.length > 0) {
-                            // Беремо першу знайдену точку
-                            const pose = hitTestState.results[0].pose.transform;
-                            
-                            // Встановлюємо позицію контенту
-                            content.setAttribute('position', {
-                                x: pose.position.x,
-                                y: pose.position.y,
-                                z: pose.position.z
-                            });
-
-                            // Показуємо контент і видаляємо себе (для одноразового розміщення)
-                            content.setAttribute('visible', 'true');
-                            // el.removeComponent('ar-placement'); // можна видалити для одноразового розміщення
-                        }
-                    }
-                });
-            }
-        });
-
-        // Застосовуємо компонент до сцени для активації логіки розміщення
-        document.querySelector('a-scene').setAttribute('ar-placement', '');
-
-    </script>
-</body>
+      </a-scene>
+  </body>
 </html>
