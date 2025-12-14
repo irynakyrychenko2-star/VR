@@ -1,59 +1,55 @@
 <!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="utf-8">
-  <title>Real AR – Tap to place cube</title>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Markerless AR</title>
 
-  <!-- A-Frame -->
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
 
-  <!-- WebXR hit-test -->
-  <script src="https://cdn.jsdelivr.net/npm/aframe-hit-test-component/dist/aframe-hit-test-component.min.js"></script>
-</head>
+    <!-- AR.js -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>
 
-<body style="margin:0; overflow:hidden;">
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      embedded
+      arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+    >
+      <!-- Камера -->
+      <a-entity camera></a-entity>
 
-<a-scene
-  webxr="requiredFeatures: hit-test;"
-  vr-mode-ui="enabled: false"
-  renderer="colorManagement: true;"
-  ar-hit-test
->
+      <!-- Объекты перед пользователем -->
+      <a-box
+        position="0 0 -2"
+        rotation="0 45 0"
+        color="#4CC3D9">
+      </a-box>
 
-  <!-- Індикатор поверхні -->
-  <a-entity
-    id="reticle"
-    ar-hit-test-target
-    geometry="primitive: ring; radiusInner: 0.05; radiusOuter: 0.06"
-    material="color: lime"
-    rotation="-90 0 0"
-    visible="false">
-  </a-entity>
+      <a-sphere
+        position="1 0 -3"
+        radius="0.4"
+        color="#EF2D5E">
+      </a-sphere>
 
-  <!-- Куб (спочатку прихований) -->
-  <a-box
-    id="cube"
-    color="#4CC3D9"
-    scale="0.2 0.2 0.2"
-    visible="false">
-  </a-box>
+      <a-cylinder
+        position="-1 0 -3"
+        radius="0.3"
+        height="0.8"
+        color="#FFC65D">
+      </a-cylinder>
 
-  <a-camera></a-camera>
-</a-scene>
+      <!-- Пол -->
+      <a-plane
+        position="0 -0.5 -2"
+        rotation="-90 0 0"
+        width="5"
+        height="5"
+        color="#7BC8A4"
+        opacity="0.5">
+      </a-plane>
 
-<script>
-  const scene = document.querySelector('a-scene');
-  const reticle = document.querySelector('#reticle');
-  const cube = document.querySelector('#cube');
-
-  scene.addEventListener('click', () => {
-    if (!reticle.object3D.visible) return;
-
-    cube.object3D.position.copy(reticle.object3D.position);
-    cube.object3D.quaternion.copy(reticle.object3D.quaternion);
-    cube.setAttribute('visible', true);
-  });
-</script>
-
-</body>
+    </a-scene>
+  </body>
 </html>
