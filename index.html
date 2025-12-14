@@ -2,23 +2,36 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Markerless AR MindAR</title>
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-aframe.prod.js"></script>
+    <title>Markerless AR Android</title>
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@4.2.0/aframe/build/aframe-ar.js"></script>
   </head>
-  <body style="margin: 0; overflow: hidden;">
+  <body style="margin:0; overflow:hidden;">
 
-    <a-scene mindar="imageTargetSrc: " embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false">
-
-      <!-- Об’єкти AR -->
-      <a-box position="0 0.5 0" color="#4CC3D9" scale="0.2 0.2 0.2"></a-box>
-      <a-sphere position="0.5 0.25 0" radius="0.15" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="-0.5 0.25 0" radius="0.1" height="0.3" color="#FFC65D"></a-cylinder>
+    <a-scene
+      xrweb
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+      vr-mode-ui="enabled: false"
+    >
+      <!-- Об’єкти AR перед камерою -->
+      <a-box position="0 0 -1" color="#4CC3D9" scale="0.3 0.3 0.3"></a-box>
+      <a-sphere position="0.5 0 -1" radius="0.15" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="-0.5 0 -1" radius="0.1" height="0.3" color="#FFC65D"></a-cylinder>
 
       <!-- Камера -->
-      <a-camera position="0 1.6 0"></a-camera>
+      <a-camera></a-camera>
     </a-scene>
+
+    <script>
+      // Доступ до камери
+      const video = document.createElement('video');
+      video.setAttribute('autoplay', true);
+      video.setAttribute('playsinline', true);
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        video.srcObject = stream;
+      });
+    </script>
 
   </body>
 </html>
-
