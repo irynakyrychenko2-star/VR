@@ -1,20 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <title>A-Frame AR Сцена</title>
+    <meta charset="utf-8" />
+    <title>Markerless AR</title>
+
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+
+    <!-- AR.js -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
   </head>
-  <body>
+
+  <body style="margin: 0; overflow: hidden;">
     <a-scene
-      vr-mode-ui="enabled: false"
-      webxr="requiredFeatures: [ar-hit-test]; optionalFeatures: [light-estimation]"
+      embedded
+      arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
     >
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <!-- Камера -->
+      <a-entity camera></a-entity>
 
-      <a-entity camera position="0 1.6 0"></a-entity>
+      <!-- Объекты перед пользователем -->
+      <a-box
+        position="0 0 -2"
+        rotation="0 45 0"
+        color="#4CC3D9">
+      </a-box>
 
-      </a-scene>
+      <a-sphere
+        position="1 0 -3"
+        radius="0.4"
+        color="#EF2D5E">
+      </a-sphere>
+
+      <a-cylinder
+        position="-1 0 -3"
+        radius="0.3"
+        height="0.8"
+        color="#FFC65D">
+      </a-cylinder>
+
+      <!-- Пол -->
+      <a-plane
+        position="0 -0.5 -2"
+        rotation="-90 0 0"
+        width="5"
+        height="5"
+        color="#7BC8A4"
+        opacity="0.5">
+      </a-plane>
+
+    </a-scene>
   </body>
 </html>
